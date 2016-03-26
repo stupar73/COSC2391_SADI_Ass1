@@ -1,23 +1,24 @@
 package model;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.interfaces.GameEngine;
 import model.interfaces.GameEngineCallback;
 
 public class GameEngineCallbackImpl implements GameEngineCallback
 {
+    private static Logger logger = Logger.getLogger("assignment1");
 
     @Override
     public void nextNumber(int nextNumber, GameEngine engine)
     {
-        // TODO Auto-generated method stub
-
+        logger.log(Level.INFO, "next number=" + nextNumber);
     }
 
     @Override
     public void result(int result, GameEngine engine)
     {
-        // TODO Auto-generated method stub
-
+        logger.log(Level.INFO, "result=" + result);
     }
 
 }

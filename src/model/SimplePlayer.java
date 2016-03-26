@@ -8,7 +8,7 @@ public class SimplePlayer implements Player
     private String name;
     private int points;
     private int bet;
-    public int number;
+    private int number;
 
     public SimplePlayer(String id, String name, int points)
     {
@@ -52,7 +52,7 @@ public class SimplePlayer implements Player
     @Override
     public boolean placeBet(int number, int bet)
     {
-        if (!canPlaceBet(number, bet))
+        if (!canPlaceBet(bet))
         {
             return false;
         }
@@ -72,9 +72,9 @@ public class SimplePlayer implements Player
      * @return true if the player has sufficient points and the bet is greater
      *         than zero
      */
-    private boolean canPlaceBet(int number, int bet)
+    private boolean canPlaceBet(int bet)
     {
-        return bet > 0 && this.points <= bet;
+        return bet > 0 && bet <= this.points;
     }
 
     @Override
@@ -100,11 +100,12 @@ public class SimplePlayer implements Player
     {
         String s;
 
-        s = "ID: " + this.id;
-        s += "Name: " + this.name;
-        s += "Current points: " + this.points;
-        s += "Current bet: " + this.bet;
-        s += "Lucky number: " + this.number;
+        s = "Player: ";
+        s += "id=" + this.id;
+        s += ", name=" + this.name;
+        s += ", points=" + this.points;
+        s += ", number=" + this.number;
+        s += ", bet=" + this.bet;
 
         return s;
     }
