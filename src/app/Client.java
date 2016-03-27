@@ -1,10 +1,11 @@
-package view;
+package app;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import model.GameEngineCallbackImpl;
-import model.GameEngineImpl;
+import model.GameVariables;
 import model.SimplePlayer;
+import model.console.GameEngineCallbackImpl;
+import model.console.GameEngineImpl;
 import model.interfaces.GameEngine;
 import model.interfaces.Player;
 
@@ -17,7 +18,7 @@ import model.interfaces.Player;
 public class Client
 {
     private static Logger logger = Logger.getLogger("assignment1");
-    private static final int WHEEL_SIZE = 40;
+    private static final int WHEEL_SIZE = GameVariables.wheelSize;
     private static final int BET = 100;
 
     public static void main(String args[])
@@ -26,8 +27,9 @@ public class Client
 
         // Create two test players
         Player[] players = new Player[] {
-                        new SimplePlayer("1", "The Hustler", 1000),
-                        new SimplePlayer("2", "The Loser", 500)};
+                new SimplePlayer("1", "The Hustler", 1000),
+                new SimplePlayer("2", "The Loser", 500)
+        };
 
         gameEngine.addGameEngineCallback(new GameEngineCallbackImpl());
 
@@ -38,7 +40,7 @@ public class Client
             int number = (int) (Math.random() * WHEEL_SIZE);
             logger.log(Level.INFO, "lucky number=" + number);
             logger.log(Level.INFO, "placeBet returned "
-                            + gameEngine.placeBet(player, number, BET));
+                    + gameEngine.placeBet(player, number, BET));
         }
 
         // All players have bet so now do spin, so that GameEngineCallBacks are

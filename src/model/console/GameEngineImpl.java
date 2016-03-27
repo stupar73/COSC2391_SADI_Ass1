@@ -1,4 +1,4 @@
-package model;
+package model.console;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -48,7 +48,7 @@ public class GameEngineImpl implements GameEngine
             }
             catch (InterruptedException e)
             {
-                // TODODeal with this
+                // TODO Deal with this
                 e.printStackTrace();
             }
 
