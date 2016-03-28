@@ -22,35 +22,42 @@ public class GameVariablesDialog extends JPanel
     {
         this.setLayout(new GridBagLayout());
 
+        GridBagConstraints infoConstraints = new GridBagConstraints();
+        infoConstraints.anchor = GridBagConstraints.LINE_START;
+        infoConstraints.gridy = 0;
+        infoConstraints.gridwidth = 2;
+        infoConstraints.ipady = 10;
+        this.add(new JLabel("Enter new game variables:"), infoConstraints);
+
         wheelSize = this.addLabeledSpinner("Wheel size: ", wheelSize,
-                new SpinnerNumberModel(GameVariables.wheelSize, 1,
-                        Integer.MAX_VALUE, 1), 0);
+                new SpinnerNumberModel(
+                        GameVariables.wheelSize, 1, Integer.MAX_VALUE, 1), 1);
 
         startingPoints = this.addLabeledSpinner("Starting points: ",
                 startingPoints, new SpinnerNumberModel(
                         GameVariables.startingPoints, 1, Integer.MAX_VALUE, 1),
-                1);
+                2);
 
         initialDelay = this.addLabeledSpinner("Initial delay: ", initialDelay,
-                new SpinnerNumberModel(GameVariables.initialDelay, 1,
-                        Integer.MAX_VALUE, 1), 2);
+                new SpinnerNumberModel(
+                        GameVariables.initialDelay, 1, Integer.MAX_VALUE, 1), 3);
 
         finalDelay = this.addLabeledSpinner("Final delay: ", finalDelay,
-                new SpinnerNumberModel(GameVariables.finalDelay, 1,
-                        Integer.MAX_VALUE, 1), 3);
+                new SpinnerNumberModel(
+                        GameVariables.finalDelay, 1, Integer.MAX_VALUE, 1), 4);
 
         delayIncrement = this.addLabeledSpinner("Delay increment: ",
                 delayIncrement, new SpinnerNumberModel(
                         GameVariables.delayIncrement, 1, Integer.MAX_VALUE, 1),
-                4);
+                5);
     }
 
     public void show()
     {
-        int okOrCancel = JOptionPane.showConfirmDialog(null, this,
-                "Enter new game variables", JOptionPane.OK_CANCEL_OPTION);
+        int selection = JOptionPane.showConfirmDialog(null, this,
+                "Game Variables", JOptionPane.OK_CANCEL_OPTION);
 
-        if (okOrCancel == JOptionPane.OK_OPTION)
+        if (selection == JOptionPane.OK_OPTION)
         {
             changeGameVariables();
         }
@@ -83,6 +90,8 @@ public class GameVariablesDialog extends JPanel
         // Add JSpinner
         GridBagConstraints spinnerConstraints = new GridBagConstraints();
         spinnerConstraints.gridx = 1;
+        spinnerConstraints.gridy = row;
+        spinnerConstraints.anchor = GridBagConstraints.LINE_END;
         this.add(spinner, spinnerConstraints);
 
         return spinner;

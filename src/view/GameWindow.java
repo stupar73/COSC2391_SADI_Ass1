@@ -7,21 +7,19 @@ import model.interfaces.GameEngine;
 public class GameWindow extends JFrame
 {
     private GameEngine gameEngine;
-    private GameToolbar toolbar;
     private GameMenuBar menuBar;
-
+    private GameToolbar toolbar;
 
     public GameWindow(GameEngine gameEngine)
     {
+        super("Spin the Wheel Game");
+
         // UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 
-        super("Sping the Wheel Game");
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.gameEngine = gameEngine;
 
         this.menuBar = new GameMenuBar();
         this.setJMenuBar(menuBar);
-
-        this.gameEngine = gameEngine;
 
         this.toolbar = new GameToolbar(this, gameEngine);
         this.add(this.toolbar, BorderLayout.NORTH);
@@ -29,6 +27,8 @@ public class GameWindow extends JFrame
         // TODO Player panel
 
         // TODO Wheel display + spin button
+
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         this.pack();
         this.setVisible(true);

@@ -1,9 +1,11 @@
-package model.console;
+package model;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.interfaces.GameEngine;
 import model.interfaces.GameEngineCallback;
 import model.interfaces.Player;
@@ -12,6 +14,7 @@ public class GameEngineImpl implements GameEngine
 {
     private Collection<Player> players;
     private Collection<GameEngineCallback> gameEngineCallbacks;
+    private static Logger logger = Logger.getLogger("assignment1");
 
     public GameEngineImpl()
     {
@@ -80,12 +83,15 @@ public class GameEngineImpl implements GameEngine
             throw new IllegalArgumentException(
                     "Player was unable to be added to the collection");
         }
+        logger.log(Level.INFO, "{" + player + "} added");
     }
 
     @Override
     public boolean removePlayer(Player player)
     {
         assert (player != null);
+
+        logger.log(Level.INFO, "{" + player + "} removed");
 
         return players.remove(player);
     }

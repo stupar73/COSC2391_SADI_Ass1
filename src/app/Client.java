@@ -2,10 +2,10 @@ package app;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.GameEngineCallbackImpl;
+import model.GameEngineImpl;
 import model.GameVariables;
 import model.SimplePlayer;
-import model.console.GameEngineCallbackImpl;
-import model.console.GameEngineImpl;
 import model.interfaces.GameEngine;
 import model.interfaces.Player;
 
@@ -54,6 +54,11 @@ public class Client
         for (Player player : gameEngine.getAllPlayers())
         {
             logger.log(Level.INFO, player.toString());
+        }
+        // Remove players
+        for (Player player : players)
+        {
+            gameEngine.removePlayer(player);
         }
     }
 }

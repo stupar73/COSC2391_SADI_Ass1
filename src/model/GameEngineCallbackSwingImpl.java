@@ -1,4 +1,4 @@
-package model.swing;
+package model;
 
 import model.interfaces.GameEngine;
 import model.interfaces.GameEngineCallback;

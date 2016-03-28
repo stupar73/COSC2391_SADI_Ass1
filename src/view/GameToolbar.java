@@ -2,6 +2,8 @@ package view;
 
 import javax.swing.JButton;
 import javax.swing.JToolBar;
+import controller.AddPlayerListener;
+import controller.RemovePlayerListener;
 import model.interfaces.GameEngine;
 
 public class GameToolbar extends JToolBar
@@ -17,7 +19,11 @@ public class GameToolbar extends JToolBar
         addPlayer = new JButton("Add Player");
         removePlayer = new JButton("Remove Player");
 
-        // TODO Add listeners to buttons
+        // Add listeners to buttons
+        addPlayer.addActionListener(new AddPlayerListener(gameWindow,
+                gameEngine));
+        removePlayer.addActionListener(new RemovePlayerListener(gameWindow,
+                gameEngine));
 
         this.add(addPlayer);
         this.add(removePlayer);
