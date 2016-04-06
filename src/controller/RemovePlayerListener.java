@@ -46,7 +46,10 @@ public class RemovePlayerListener implements ActionListener
             player = gameEngine.getPlayer(id);
         }
 
+        // Remove player from game engine
         gameEngine.removePlayer(player);
+        // Update GUI to remove player
+        gameWindow.updateVisiblePlayers();
     }
 
 }

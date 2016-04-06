@@ -9,17 +9,24 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 import model.GameVariables;
+import model.interfaces.GameEngine;
 
 public class GameVariablesDialog extends JPanel
 {
+    private GameWindow gameWindow;
+    private GameEngine gameEngine;
     private JSpinner wheelSize;
     private JSpinner startingPoints;
     private JSpinner initialDelay;
     private JSpinner finalDelay;
     private JSpinner delayIncrement;
+    private JSpinner maxPlayers;
 
-    public GameVariablesDialog()
+    public GameVariablesDialog(GameWindow gameWindow, GameEngine gameEngine)
     {
+        this.gameWindow = gameWindow;
+        this.gameEngine = gameEngine;
+
         this.setLayout(new GridBagLayout());
 
         GridBagConstraints infoConstraints = new GridBagConstraints();
@@ -29,32 +36,37 @@ public class GameVariablesDialog extends JPanel
         infoConstraints.ipady = 10;
         this.add(new JLabel("Enter new game variables:"), infoConstraints);
 
-        wheelSize = this.addLabeledSpinner("Wheel size: ", wheelSize,
+        wheelSize = this.addLabeledSpinner("Wheel size: ",
                 new SpinnerNumberModel(
                         GameVariables.wheelSize, 1, Integer.MAX_VALUE, 1), 1);
 
         startingPoints = this.addLabeledSpinner("Starting points: ",
-                startingPoints, new SpinnerNumberModel(
+                new SpinnerNumberModel(
                         GameVariables.startingPoints, 1, Integer.MAX_VALUE, 1),
                 2);
 
-        initialDelay = this.addLabeledSpinner("Initial delay: ", initialDelay,
+        initialDelay = this.addLabeledSpinner("Initial delay: ",
                 new SpinnerNumberModel(
-                        GameVariables.initialDelay, 1, Integer.MAX_VALUE, 1), 3);
+                        GameVariables.initialDelay, 1, Integer.MAX_VALUE, 1),
+                3);
 
-        finalDelay = this.addLabeledSpinner("Final delay: ", finalDelay,
+        finalDelay = this.addLabeledSpinner("Final delay: ",
                 new SpinnerNumberModel(
                         GameVariables.finalDelay, 1, Integer.MAX_VALUE, 1), 4);
 
         delayIncrement = this.addLabeledSpinner("Delay increment: ",
-                delayIncrement, new SpinnerNumberModel(
+                new SpinnerNumberModel(
                         GameVariables.delayIncrement, 1, Integer.MAX_VALUE, 1),
                 5);
+        maxPlayers = this.addLabeledSpinner("Max players: ",
+                new SpinnerNumberModel(
+                        GameVariables.maxPlayers, 1, Integer.MAX_VALUE, 1),
+                6);
     }
 
     public void show()
     {
-        int selection = JOptionPane.showConfirmDialog(null, this,
+        int selection = JOptionPane.showConfirmDialog(this.gameWindow, this,
                 "Game Variables", JOptionPane.OK_CANCEL_OPTION);
 
         if (selection == JOptionPane.OK_OPTION)
@@ -70,13 +82,28 @@ public class GameVariablesDialog extends JPanel
         GameVariables.initialDelay = (int) initialDelay.getValue();
         GameVariables.finalDelay = (int) finalDelay.getValue();
         GameVariables.delayIncrement = (int) delayIncrement.getValue();
+        /*
+         * Make sure new max player count is not less than the current number of
+         * players
+         */
+        if ((int) maxPlayers.getValue() < this.gameEngine.getAllPlayers()
+                .size())
+        {
+            JOptionPane.showMessageDialog(this.gameWindow, "Cannot set new max "
+                    + "player count, max player count must not exceed current "
+                    + "number of players.");
+        }
+        else
+        {
+            GameVariables.maxPlayers = (int) maxPlayers.getValue();
+        }
     }
 
-    private JSpinner addLabeledSpinner(String labelText, JSpinner spinner,
-            SpinnerModel model, int row)
+    private JSpinner addLabeledSpinner(String labelText, SpinnerModel model,
+            int row)
     {
         JLabel label = new JLabel(labelText);
-        spinner = new JSpinner(model);
+        JSpinner spinner = new JSpinner(model);
         label.setLabelFor(spinner);
 
         // Add label
