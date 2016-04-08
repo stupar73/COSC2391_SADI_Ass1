@@ -1,17 +1,22 @@
 package view;
 
-import java.awt.GridLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
+import controller.PlaceBetListener;
 import model.GameVariables;
+import model.interfaces.GameEngine;
 import model.interfaces.Player;
 
 public class GamePlayerPanel extends JPanel
 {
     private GameWindow gameWindow;
+    private GameEngine gameEngine;
     private Player player;
     private JLabel nameLabel;
     private JLabel nameValue;
@@ -21,13 +26,14 @@ public class GamePlayerPanel extends JPanel
     private JSpinner luckyNumberField;
     private JLabel betLabel;
     private JSpinner betField;
+    private JButton placeBet;
 
-    public GamePlayerPanel(GameWindow gameWindow, Player player)
+    public GamePlayerPanel(GameWindow gameWindow, GameEngine gaeEngine, Player player)
     {
         this.gameWindow = gameWindow;
         this.player = player;
 
-        this.setLayout(new GridLayout(4, 2));
+        this.setLayout(new GridBagLayout());
         this.setBorder(BorderFactory.createTitledBorder("<html><b>Player ID: "
                 + player.getPlayerId() + "</b></html>"));
 
@@ -57,15 +63,40 @@ public class GamePlayerPanel extends JPanel
         pointsLabel.setLabelFor(pointsValue);
         luckyNumberLabel.setLabelFor(luckyNumberField);
         betLabel.setLabelFor(betField);
+        
+        placeBet = new JButton("Place bet");
+        placeBet.addActionListener(new PlaceBetListener(this.gameWindow,
+                this.gameEngine, this.player));
 
-        this.add(nameLabel);
-        this.add(nameValue);
-        this.add(pointsLabel);
-        this.add(pointsValue);
-        this.add(luckyNumberLabel);
-        this.add(luckyNumberField);
-        this.add(betLabel);
-        this.add(betField);
+        GridBagConstraints labelConstraints = new GridBagConstraints();
+        labelConstraints.gridx = 0;
+        labelConstraints.gridy = 0;
+        labelConstraints.anchor = GridBagConstraints.LINE_END;
+        labelConstraints.fill = GridBagConstraints.BOTH;
+        GridBagConstraints valueConstraints = new GridBagConstraints();
+        valueConstraints.gridx = 1;
+        valueConstraints.gridy = 0;
+        valueConstraints.anchor = GridBagConstraints.LINE_START;
+        valueConstraints.fill = GridBagConstraints.BOTH;
+        GridBagConstraints buttonConstraints = new GridBagConstraints();
+        buttonConstraints.gridwidth = 2;
+        
+        this.add(nameLabel, labelConstraints);
+        this.add(nameValue, valueConstraints);
+        labelConstraints.gridy++;
+        valueConstraints.gridy++;
+        this.add(pointsLabel, labelConstraints);
+        this.add(pointsValue, valueConstraints);
+        labelConstraints.gridy++;
+        valueConstraints.gridy++;
+        this.add(luckyNumberLabel, labelConstraints);
+        this.add(luckyNumberField, valueConstraints);
+        labelConstraints.gridy++;
+        valueConstraints.gridy++;
+        this.add(betLabel, labelConstraints);
+        this.add(betField, valueConstraints);
+        buttonConstraints.gridy = labelConstraints.gridy + 1;
+        this.add(placeBet, buttonConstraints);
     }
 
     public Player getPlayer()

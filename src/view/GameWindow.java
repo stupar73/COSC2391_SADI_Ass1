@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -45,7 +46,7 @@ public class GameWindow extends JFrame
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        // this.setPreferredSize(new Dimension(800, 600));
+        this.setMinimumSize(new Dimension(640,480));
         this.pack();
         this.setVisible(true);
     }
@@ -87,7 +88,7 @@ public class GameWindow extends JFrame
      */
     private void addPlayerPanel(Player player)
     {
-        GamePlayerPanel playerPanel = new GamePlayerPanel(this, player);
+        GamePlayerPanel playerPanel = new GamePlayerPanel(this, this.gameEngine, player);
 
         // Player should not already be present
         assert (!playerPanels.contains(player));
