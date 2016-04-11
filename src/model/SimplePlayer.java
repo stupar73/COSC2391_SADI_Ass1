@@ -65,6 +65,8 @@ public class SimplePlayer implements Player
     }
 
     /**
+     * Determines whether this {@code Player} can place the bet
+     *
      * @param number
      *            the "lucky" number on the wheel the player is betting on
      * @param bet
@@ -74,7 +76,7 @@ public class SimplePlayer implements Player
      */
     private boolean canPlaceBet(int bet)
     {
-        return bet > 0 && bet <= this.points;
+        return bet > 0 && bet <= this.points && this.bet == 0;
     }
 
     @Override

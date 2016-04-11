@@ -8,6 +8,8 @@ import model.interfaces.GameEngine;
 
 public class GameToolbar extends JToolBar
 {
+    private GameWindow gameWindow;
+    private GameEngine gameEngine;
     private JButton addPlayer;
     private JButton removePlayer;
 
@@ -16,14 +18,17 @@ public class GameToolbar extends JToolBar
         // Give the toolbar a title
         super("Spin the Wheel Toolbar");
 
+        this.gameWindow = gameWindow;
+        this.gameEngine = gameEngine;
+
         addPlayer = new JButton("Add Player");
         removePlayer = new JButton("Remove Player");
 
         // Add listeners to buttons
-        addPlayer.addActionListener(new AddPlayerListener(gameWindow,
-                gameEngine));
-        removePlayer.addActionListener(new RemovePlayerListener(gameWindow,
-                gameEngine));
+        addPlayer.addActionListener(new AddPlayerListener(this.gameWindow,
+                this.gameEngine));
+        removePlayer.addActionListener(new RemovePlayerListener(this.gameWindow,
+                this.gameEngine));
 
         this.add(addPlayer);
         this.add(removePlayer);

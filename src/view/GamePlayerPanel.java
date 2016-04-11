@@ -28,9 +28,11 @@ public class GamePlayerPanel extends JPanel
     private JSpinner betField;
     private JButton placeBet;
 
-    public GamePlayerPanel(GameWindow gameWindow, GameEngine gaeEngine, Player player)
+    public GamePlayerPanel(GameWindow gameWindow, GameEngine gameEngine,
+            Player player)
     {
         this.gameWindow = gameWindow;
+        this.gameEngine = gameEngine;
         this.player = player;
 
         this.setLayout(new GridBagLayout());
@@ -63,10 +65,10 @@ public class GamePlayerPanel extends JPanel
         pointsLabel.setLabelFor(pointsValue);
         luckyNumberLabel.setLabelFor(luckyNumberField);
         betLabel.setLabelFor(betField);
-        
+
         placeBet = new JButton("Place bet");
         placeBet.addActionListener(new PlaceBetListener(this.gameWindow,
-                this.gameEngine, this.player));
+                this.gameEngine, this));
 
         GridBagConstraints labelConstraints = new GridBagConstraints();
         labelConstraints.gridx = 0;
@@ -80,7 +82,7 @@ public class GamePlayerPanel extends JPanel
         valueConstraints.fill = GridBagConstraints.BOTH;
         GridBagConstraints buttonConstraints = new GridBagConstraints();
         buttonConstraints.gridwidth = 2;
-        
+
         this.add(nameLabel, labelConstraints);
         this.add(nameValue, valueConstraints);
         labelConstraints.gridy++;
@@ -99,8 +101,56 @@ public class GamePlayerPanel extends JPanel
         this.add(placeBet, buttonConstraints);
     }
 
+    /**
+     * TODO
+     */
+    public void update()
+    {
+        // Set player fields to updated values
+        nameValue.setText(player.getPlayerName());
+        pointsValue.setText(Integer.toString(player.getPoints()));
+
+        // Reset JSpinner fields to minimum values
+        luckyNumberField.setValue(((SpinnerNumberModel) luckyNumberField
+                .getModel()).getMinimum());
+        betField.setValue(((SpinnerNumberModel) betField.getModel())
+                .getMinimum());
+
+        // Re-enable place bet button
+        placeBet.setEnabled(true);
+
+        gameWindow.revalidate();
+    }
+
+    /**
+     * @return the {@code Player} object for this {@code GamePlayerPanel}
+     */
     public Player getPlayer()
     {
         return this.player;
+    }
+
+    /**
+     * @return the betField for this {@code GamePlayerPanel}
+     */
+    public JSpinner getBetField()
+    {
+        return this.betField;
+    }
+
+    /**
+     * @return the luckyNumberField for this {@code GamePlayerPanel}
+     */
+    public JSpinner getLuckyNumberfield()
+    {
+        return this.luckyNumberField;
+    }
+
+    /**
+     * @return the placeBet button for this {@code GamePlayerPanel}
+     */
+    public JButton getBetButton()
+    {
+        return this.placeBet;
     }
 }

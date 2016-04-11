@@ -91,9 +91,14 @@ public class GameEngineImpl implements GameEngine
     {
         assert (player != null);
 
-        logger.log(Level.INFO, "{" + player + "} removed");
+        boolean wasRemoved = players.remove(player);
 
-        return players.remove(player);
+        if (wasRemoved)
+        {
+            logger.log(Level.INFO, "{" + player + "} removed");
+        }
+
+        return wasRemoved;
     }
 
     @Override
@@ -125,7 +130,16 @@ public class GameEngineImpl implements GameEngine
                     "Bet amount must be 1 or greater");
         }
 
-        return player.placeBet(number, bet);
+        boolean wasPlaced = player.placeBet(number, bet);
+
+        if (wasPlaced)
+        {
+            logger.log(Level.INFO, "Bet placed for " + bet + " points on "
+                    + "lucky number " + number + " by player with id "
+                    + player.getPlayerId());
+        }
+
+        return wasPlaced;
     }
 
     @Override

@@ -46,13 +46,13 @@ public class GameWindow extends JFrame
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        this.setMinimumSize(new Dimension(640,480));
+        this.setMinimumSize(new Dimension(640, 480));
         this.pack();
         this.setVisible(true);
     }
 
     /**
-     * TODO
+     * Update the GUI to display any added player and hide any removed players
      */
     public void updateVisiblePlayers()
     {
@@ -80,7 +80,9 @@ public class GameWindow extends JFrame
     }
 
     /**
-     * TODO
+     * Create a {@code GamePlayerPanel} for {@code player} and add it to
+     * {@code playerPanels} and {@code playerPanelsContainer} as well as adding
+     * {@code player} to {@code visiblePlayers}
      *
      * @param player
      *            the {@code Player} whose {@code GamePlayerPanel} we want to
@@ -88,7 +90,8 @@ public class GameWindow extends JFrame
      */
     private void addPlayerPanel(Player player)
     {
-        GamePlayerPanel playerPanel = new GamePlayerPanel(this, this.gameEngine, player);
+        GamePlayerPanel playerPanel = new GamePlayerPanel(this, this.gameEngine,
+                player);
 
         // Player should not already be present
         assert (!playerPanels.contains(player));
@@ -99,7 +102,9 @@ public class GameWindow extends JFrame
     }
 
     /**
-     * TODO
+     * Remove player's {@code GamePlayerPanel} from {@code playerPanels} and
+     * {@code playerPanelsContainer} as well remove the associated
+     * {@code Player} from {@code visiblePlayers}
      *
      * @param player
      *            the {@code Player} whose {@code GamePlayerPanel} we want to
@@ -118,7 +123,7 @@ public class GameWindow extends JFrame
     }
 
     /**
-     * TODO
+     * Get the {@code GamePlayerPanel} for {@code Player} player
      *
      * @param player
      *            the {@code Player} whose {@code GamePlayerPanel} we're looking
@@ -139,7 +144,7 @@ public class GameWindow extends JFrame
     }
 
     /**
-     * @return
+     * @return all {@code Player}s that are displayed on the screen
      */
     private Collection<Player> getAllVisiblePlayers()
     {
