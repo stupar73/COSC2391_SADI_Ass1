@@ -35,12 +35,18 @@ public class PlaceBetListener implements ActionListener
         int betAmount = (int) betField.getValue();
         int luckyNumber = (int) luckyNumberField.getValue();
 
+        // Place bet, show error message if it failed
         if (!gameEngine.placeBet(player, luckyNumber, betAmount))
         {
             JOptionPane.showMessageDialog(gameWindow, "Unable to place bet "
                     + "for player with ID " + player.getPlayerId());
             return;
         }
+
+        // Add text descriptive of the bet placed to the betPlacedInfo field
+        playerPanel.getBetPlacedInfo().setText("<html><i>Bet placed for "
+                + betAmount + " points on number " + luckyNumber
+                + ".</i></html>");
 
         // Disable button until turn over
         playerPanel.getBetButton().setEnabled(false);

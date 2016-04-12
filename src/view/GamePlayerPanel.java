@@ -2,6 +2,7 @@ package view;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -27,6 +28,7 @@ public class GamePlayerPanel extends JPanel
     private JLabel betLabel;
     private JSpinner betField;
     private JButton placeBet;
+    private JLabel betPlacedInfo;
 
     public GamePlayerPanel(GameWindow gameWindow, GameEngine gameEngine,
             Player player)
@@ -70,6 +72,8 @@ public class GamePlayerPanel extends JPanel
         placeBet.addActionListener(new PlaceBetListener(this.gameWindow,
                 this.gameEngine, this));
 
+        betPlacedInfo = new JLabel("");
+
         GridBagConstraints labelConstraints = new GridBagConstraints();
         labelConstraints.gridx = 0;
         labelConstraints.gridy = 0;
@@ -82,6 +86,9 @@ public class GamePlayerPanel extends JPanel
         valueConstraints.fill = GridBagConstraints.BOTH;
         GridBagConstraints buttonConstraints = new GridBagConstraints();
         buttonConstraints.gridwidth = 2;
+        buttonConstraints.anchor = GridBagConstraints.PAGE_END;
+        buttonConstraints.insets = new Insets(5, 0, 0, 0);
+        GridBagConstraints betPlacedConstraints = buttonConstraints;
 
         this.add(nameLabel, labelConstraints);
         this.add(nameValue, valueConstraints);
@@ -99,6 +106,8 @@ public class GamePlayerPanel extends JPanel
         this.add(betField, valueConstraints);
         buttonConstraints.gridy = labelConstraints.gridy + 1;
         this.add(placeBet, buttonConstraints);
+        betPlacedConstraints.gridy = buttonConstraints.gridy + 1;
+        this.add(betPlacedInfo, betPlacedConstraints);
     }
 
     /**
@@ -115,6 +124,9 @@ public class GamePlayerPanel extends JPanel
                 .getModel()).getMinimum());
         betField.setValue(((SpinnerNumberModel) betField.getModel())
                 .getMinimum());
+
+        // Clear bet placed info field
+        betPlacedInfo.setText("");
 
         // Re-enable place bet button
         placeBet.setEnabled(true);
@@ -152,5 +164,14 @@ public class GamePlayerPanel extends JPanel
     public JButton getBetButton()
     {
         return this.placeBet;
+    }
+
+    /**
+     * @return the betPlacedInfo field, used to display information about the
+     *         bet that has been placed for this {@code Player}
+     */
+    public JLabel getBetPlacedInfo()
+    {
+        return this.betPlacedInfo;
     }
 }
