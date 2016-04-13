@@ -17,6 +17,7 @@ public class GameWindow extends JFrame
     private GameMenuBar menuBar;
     private GameToolbar toolbar;
     private JPanel playerPanelsContainer;
+    private GameWheelPanel wheelPanel;
     private Collection<GamePlayerPanel> playerPanels;
     private Collection<Player> visiblePlayers;
 
@@ -24,7 +25,7 @@ public class GameWindow extends JFrame
     {
         super("Spin the Wheel Game");
 
-        // Disable bold
+        // Disable default bold font
         UIManager.put("swing.boldMetal", Boolean.FALSE);
 
         // UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -35,18 +36,19 @@ public class GameWindow extends JFrame
         this.setJMenuBar(menuBar);
 
         this.toolbar = new GameToolbar(this, gameEngine);
-        this.add(this.toolbar, BorderLayout.NORTH);
+        this.add(this.toolbar, BorderLayout.PAGE_START);
 
         this.playerPanelsContainer = new JPanel();
         this.add(this.playerPanelsContainer, BorderLayout.CENTER);
         this.playerPanels = new ArrayList<GamePlayerPanel>();
         this.visiblePlayers = new ArrayList<Player>();
 
-        // TODO Wheel display + spin button
+        this.wheelPanel = new GameWheelPanel(this, gameEngine);
+        this.add(wheelPanel, BorderLayout.PAGE_END);
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        this.setMinimumSize(new Dimension(640, 480));
+        this.setMinimumSize(new Dimension(480, 360));
         this.pack();
         this.setVisible(true);
     }

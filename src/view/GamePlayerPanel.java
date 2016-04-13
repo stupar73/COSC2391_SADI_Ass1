@@ -111,7 +111,10 @@ public class GamePlayerPanel extends JPanel
     }
 
     /**
-     * TODO
+     * Update the information displayed in this {@code GamePlayerPanel} based
+     * on the current game state.
+     * <br /><br />
+     * Should be called after a spin has been completed.
      */
     public void update()
     {

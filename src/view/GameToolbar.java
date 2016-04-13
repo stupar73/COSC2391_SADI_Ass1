@@ -18,6 +18,9 @@ public class GameToolbar extends JToolBar
         // Give the toolbar a title
         super("Spin the Wheel Toolbar");
 
+        // Disable toolbar dragging
+        this.setFloatable(false);
+
         this.gameWindow = gameWindow;
         this.gameEngine = gameEngine;
 
