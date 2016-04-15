@@ -38,29 +38,31 @@ public class GameVariablesDialog extends JPanel
 
         wheelSize = this.addLabeledSpinner("Wheel size: ",
                 new SpinnerNumberModel(
-                        GameVariables.wheelSize, 1, Integer.MAX_VALUE, 1), 1);
+                        GameVariables.getWheelSize(), 1, Integer.MAX_VALUE, 1),
+                1);
 
         startingPoints = this.addLabeledSpinner("Starting points: ",
                 new SpinnerNumberModel(
-                        GameVariables.startingPoints, 1, Integer.MAX_VALUE, 1),
-                2);
+                        GameVariables.getStartingPoints(), 1, Integer.MAX_VALUE,
+                        1), 2);
 
-        initialDelay = this.addLabeledSpinner("Initial delay: ",
+        initialDelay = this.addLabeledSpinner("Initial delay upper bound: ",
                 new SpinnerNumberModel(
-                        GameVariables.initialDelay, 1, Integer.MAX_VALUE, 1),
-                3);
+                        GameVariables.getInitialDelayUpper(), 1,
+                        Integer.MAX_VALUE, 1), 3);
 
-        finalDelay = this.addLabeledSpinner("Final delay: ",
+        finalDelay = this.addLabeledSpinner("Final delay upper bound: ",
                 new SpinnerNumberModel(
-                        GameVariables.finalDelay, 1, Integer.MAX_VALUE, 1), 4);
+                        GameVariables.getFinalDelayUpper(), 1,
+                        Integer.MAX_VALUE, 1), 4);
 
         delayIncrement = this.addLabeledSpinner("Delay increment: ",
                 new SpinnerNumberModel(
-                        GameVariables.delayIncrement, 1, Integer.MAX_VALUE, 1),
-                5);
+                        GameVariables.getDelayIncrement(), 1, Integer.MAX_VALUE,
+                        1), 5);
         maxPlayers = this.addLabeledSpinner("Max players: ",
                 new SpinnerNumberModel(
-                        GameVariables.maxPlayers, 1, Integer.MAX_VALUE, 1),
+                        GameVariables.getMaxPlayers(), 1, Integer.MAX_VALUE, 1),
                 6);
     }
 
@@ -77,11 +79,11 @@ public class GameVariablesDialog extends JPanel
 
     private void changeGameVariables()
     {
-        GameVariables.wheelSize = (int) wheelSize.getValue();
-        GameVariables.startingPoints = (int) startingPoints.getValue();
-        GameVariables.initialDelay = (int) initialDelay.getValue();
-        GameVariables.finalDelay = (int) finalDelay.getValue();
-        GameVariables.delayIncrement = (int) delayIncrement.getValue();
+        GameVariables.setWheelSize((int) wheelSize.getValue());
+        GameVariables.setStartingPoints((int) startingPoints.getValue());
+        GameVariables.setInitialDelayUpper((int) initialDelay.getValue());
+        GameVariables.setFinalDelayUpper((int) finalDelay.getValue());
+        GameVariables.setDelayIncrement((int) delayIncrement.getValue());
         /*
          * Make sure new max player count is not less than the current number of
          * players
@@ -90,12 +92,12 @@ public class GameVariablesDialog extends JPanel
                 .size())
         {
             JOptionPane.showMessageDialog(this.gameWindow, "Cannot set new max "
-                    + "player count, max player count must not exceed current "
-                    + "number of players.");
+                    + "player count, new max player count must not exceed "
+                    + "current number of players.");
         }
         else
         {
-            GameVariables.maxPlayers = (int) maxPlayers.getValue();
+            GameVariables.setMaxPlayers((int) maxPlayers.getValue());
         }
     }
 

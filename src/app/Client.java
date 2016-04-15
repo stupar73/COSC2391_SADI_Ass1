@@ -18,7 +18,7 @@ import model.interfaces.Player;
 public class Client
 {
     private static Logger logger = Logger.getLogger("assignment1");
-    private static final int WHEEL_SIZE = GameVariables.wheelSize;
+    private static final int WHEEL_SIZE = GameVariables.getWheelSize();
     private static final int BET = 100;
 
     public static void main(String args[])

@@ -23,7 +23,7 @@ public class AddPlayerListener implements ActionListener
     @Override
     public void actionPerformed(ActionEvent e)
     {
-        if (gameEngine.getAllPlayers().size() >= GameVariables.maxPlayers)
+        if (gameEngine.getAllPlayers().size() >= GameVariables.getMaxPlayers())
         {
             JOptionPane.showMessageDialog(gameWindow, "Cannot add new player, "
                     + "maximum player count has been reached.");
@@ -52,9 +52,10 @@ public class AddPlayerListener implements ActionListener
             }
         }
 
-        Player newPlayer = new SimplePlayer(
-                Integer.toString(GameVariables.nextPlayerID++), name,
-                GameVariables.startingPoints);
+        int playerID = GameVariables.getNextPlayerID();
+        Player newPlayer = new SimplePlayer(Integer.toString(playerID), name,
+                GameVariables.getStartingPoints());
+        GameVariables.setNextPlayerID(playerID + 1);
 
         // Add player to game engine
         gameEngine.addPlayer(newPlayer);
