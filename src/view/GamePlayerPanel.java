@@ -28,7 +28,7 @@ public class GamePlayerPanel extends JPanel
     private JLabel betLabel;
     private JSpinner betField;
     private JButton placeBet;
-    private JLabel betPlacedInfo;
+    private JLabel betInfo;
 
     public GamePlayerPanel(GameWindow gameWindow, GameEngine gameEngine,
             Player player)
@@ -72,7 +72,7 @@ public class GamePlayerPanel extends JPanel
         placeBet.addActionListener(new PlaceBetListener(this.gameWindow,
                 this.gameEngine, this));
 
-        betPlacedInfo = new JLabel("");
+        betInfo = new JLabel("");
 
         GridBagConstraints labelConstraints = new GridBagConstraints();
         labelConstraints.gridx = 0;
@@ -88,7 +88,7 @@ public class GamePlayerPanel extends JPanel
         buttonConstraints.gridwidth = 2;
         buttonConstraints.anchor = GridBagConstraints.PAGE_END;
         buttonConstraints.insets = new Insets(5, 0, 0, 0);
-        GridBagConstraints betPlacedConstraints = buttonConstraints;
+        GridBagConstraints betInfoConstraints = buttonConstraints;
 
         this.add(nameLabel, labelConstraints);
         this.add(nameValue, valueConstraints);
@@ -106,8 +106,8 @@ public class GamePlayerPanel extends JPanel
         this.add(betField, valueConstraints);
         buttonConstraints.gridy = labelConstraints.gridy + 1;
         this.add(placeBet, buttonConstraints);
-        betPlacedConstraints.gridy = buttonConstraints.gridy + 1;
-        this.add(betPlacedInfo, betPlacedConstraints);
+        betInfoConstraints.gridy = buttonConstraints.gridy + 1;
+        this.add(betInfo, betInfoConstraints);
     }
 
     /**
@@ -116,12 +116,36 @@ public class GamePlayerPanel extends JPanel
      * <br />
      * <br />
      * Should be called after a spin has been completed.
+     *
+     * @param result
+     *            the lucky number the wheel landed on, used to determine if the
+     *            previously placed bet won
      */
     public void update()
     {
         // Set player fields to updated values
         nameValue.setText(player.getPlayerName());
-        pointsValue.setText(Integer.toString(player.getPoints()));
+        int prevPoints = Integer.parseInt(pointsValue.getText());
+        int currPoints = player.getPoints();
+        pointsValue.setText(Integer.toString(currPoints));
+
+        int pointsDiff = currPoints - prevPoints;
+
+        // Update betInfo field
+        if (pointsDiff > 0)
+        {
+            betInfo.setText("<html><i>Previous bet won! " + pointsDiff
+                    + " point(s) added.</i></html>");
+        }
+        else if (pointsDiff < 0)
+        {
+            betInfo.setText("<html><i>Previous bet lost. "
+                    + Math.abs(pointsDiff) + " point(s) removed.</i></html>");
+        }
+        else
+        {
+            betInfo.setText("");
+        }
 
         // Set new values for betField JSpinner
         SpinnerNumberModel betModel = (SpinnerNumberModel) betField.getModel();
@@ -132,9 +156,6 @@ public class GamePlayerPanel extends JPanel
         SpinnerNumberModel luckyNumberModel =
                 (SpinnerNumberModel) luckyNumberField.getModel();
         luckyNumberModel.setValue(luckyNumberModel.getMinimum());
-
-        // Clear bet placed info field
-        betPlacedInfo.setText("");
 
         // Re-enable place bet button
         placeBet.setEnabled(true);
@@ -175,11 +196,11 @@ public class GamePlayerPanel extends JPanel
     }
 
     /**
-     * @return the betPlacedInfo field, used to display information about the
+     * @return the betInfo field, used to display information about the
      *         bet that has been placed for this {@code Player}
      */
     public JLabel getBetPlacedInfo()
     {
-        return this.betPlacedInfo;
+        return this.betInfo;
     }
 }
