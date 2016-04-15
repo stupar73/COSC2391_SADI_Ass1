@@ -54,7 +54,7 @@ public class GamePlayerPanel extends JPanel
         luckyNumberLabel = new JLabel("Lucky number: ", JLabel.TRAILING);
 
         luckyNumberField = new JSpinner(new SpinnerNumberModel(1, 1,
-                GameVariables.wheelSize, 1));
+                GameVariables.getWheelSize(), 1));
         luckyNumberField.setAlignmentX(LEFT_ALIGNMENT);
 
         betLabel = new JLabel("Bet amount: ", JLabel.TRAILING);
@@ -113,7 +113,8 @@ public class GamePlayerPanel extends JPanel
     /**
      * Update the information displayed in this {@code GamePlayerPanel} based
      * on the current game state.
-     * <br /><br />
+     * <br />
+     * <br />
      * Should be called after a spin has been completed.
      */
     public void update()
@@ -122,11 +123,15 @@ public class GamePlayerPanel extends JPanel
         nameValue.setText(player.getPlayerName());
         pointsValue.setText(Integer.toString(player.getPoints()));
 
-        // Reset JSpinner fields to minimum values
-        luckyNumberField.setValue(((SpinnerNumberModel) luckyNumberField
-                .getModel()).getMinimum());
-        betField.setValue(((SpinnerNumberModel) betField.getModel())
-                .getMinimum());
+        // Set new values for betField JSpinner
+        SpinnerNumberModel betModel = (SpinnerNumberModel) betField.getModel();
+        betModel.setMaximum(player.getPoints());
+        betModel.setValue(betModel.getMinimum());
+
+        // Set new values for luckyNumberField JSpinner
+        SpinnerNumberModel luckyNumberModel =
+                (SpinnerNumberModel) luckyNumberField.getModel();
+        luckyNumberModel.setValue(luckyNumberModel.getMinimum());
 
         // Clear bet placed info field
         betPlacedInfo.setText("");

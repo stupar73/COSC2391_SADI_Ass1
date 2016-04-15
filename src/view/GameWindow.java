@@ -48,6 +48,7 @@ public class GameWindow extends JFrame
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+        this.setLocationByPlatform(true);
         this.setMinimumSize(new Dimension(480, 360));
         this.pack();
         this.setVisible(true);
@@ -146,11 +147,27 @@ public class GameWindow extends JFrame
     }
 
     /**
+     * @return TODO
+     */
+    public Collection<GamePlayerPanel> getPlayerPanels()
+    {
+        return playerPanels;
+    }
+
+    /**
      * @return all {@code Player}s that are displayed on the screen
      */
     private Collection<Player> getAllVisiblePlayers()
     {
         return Collections.unmodifiableCollection(
                 new ArrayList<Player>(this.visiblePlayers));
+    }
+
+    /**
+     * @return TODO
+     */
+    public GameWheelPanel getWheelPanel()
+    {
+        return wheelPanel;
     }
 }

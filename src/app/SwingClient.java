@@ -16,6 +16,7 @@ public class SwingClient
 
         // Add Swing and console game engine callback implementations
         gameEngine.addGameEngineCallback(new GameEngineCallbackImpl());
-        gameEngine.addGameEngineCallback(new GameEngineCallbackSwingImpl());
+        gameEngine.addGameEngineCallback(new GameEngineCallbackSwingImpl(
+                gameWindow));
     }
 }

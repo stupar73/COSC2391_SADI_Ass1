@@ -45,7 +45,7 @@ public class PlaceBetListener implements ActionListener
 
         // Add text descriptive of the bet placed to the betPlacedInfo field
         playerPanel.getBetPlacedInfo().setText("<html><i>Bet placed for "
-                + betAmount + " points on number " + luckyNumber
+                + betAmount + " point(s) on number " + luckyNumber
                 + ".</i></html>");
 
         // Disable button until turn over

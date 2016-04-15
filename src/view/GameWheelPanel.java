@@ -1,7 +1,9 @@
 package view;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridBagLayout;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -18,7 +20,7 @@ public class GameWheelPanel extends JPanel
 
     public GameWheelPanel(GameWindow gameWindow, GameEngine gameEngine)
     {
-        super(new BorderLayout());
+        this.setLayout(new GridBagLayout());
         this.gameWindow = gameWindow;
         this.gameEngine = gameEngine;
 
@@ -26,20 +28,64 @@ public class GameWheelPanel extends JPanel
         this.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
 
         spinButton = new JButton("Spin");
-        currentWheelValue = new JLabel();
+        Font spinFont = spinButton.getFont();
+        spinButton.setFont(new Font(spinFont.getFontName(),
+                Font.BOLD, 32));
+        // spinButton.setEnabled(false); // Activate when all players have bet
+
+        currentWheelValue = new JLabel("", JLabel.CENTER);
+        Font wheelFont = currentWheelValue.getFont();
+        currentWheelValue.setFont(new Font(wheelFont.getFontName(),
+                Font.PLAIN, 38));
         currentWheelValue.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder(Color.BLACK),
                 BorderFactory.createEmptyBorder(10, 10, 10, 10)));
+        currentWheelValue.setPreferredSize(new Dimension(80, 80));
 
         spinButton.addActionListener(new SpinWheelListener(gameWindow,
                 gameEngine));
 
-        this.add(spinButton, BorderLayout.LINE_END);
-        this.add(currentWheelValue, BorderLayout.LINE_START);
+        this.add(spinButton);
     }
 
     public void updateCurrentWheelValue(int newValue)
     {
         currentWheelValue.setText(Integer.toString(newValue));
+        unboldenWheelText();
+    }
+
+    public void finalCurrentWheelValue(int newValue)
+    {
+        updateCurrentWheelValue(newValue);
+        emboldenWheelText();
+    }
+
+    public void showSpinButton()
+    {
+        this.remove(currentWheelValue);
+
+        this.add(spinButton);
+        this.revalidate();
+    }
+
+    public void showWheel()
+    {
+        this.remove(spinButton);
+        this.add(currentWheelValue);
+        this.revalidate();
+    }
+
+    public void emboldenWheelText()
+    {
+        Font wheelFont = currentWheelValue.getFont();
+        currentWheelValue.setFont(wheelFont.deriveFont(
+                wheelFont.getStyle() | Font.BOLD));
+    }
+
+    public void unboldenWheelText()
+    {
+        Font wheelFont = currentWheelValue.getFont();
+        currentWheelValue.setFont(wheelFont.deriveFont(
+                wheelFont.getStyle() & ~Font.BOLD));
     }
 }

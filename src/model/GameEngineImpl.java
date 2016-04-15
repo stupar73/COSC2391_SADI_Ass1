@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.interfaces.GameEngine;
@@ -14,6 +15,7 @@ public class GameEngineImpl implements GameEngine
 {
     private Collection<Player> players;
     private Collection<GameEngineCallback> gameEngineCallbacks;
+    private int previousWheelValue;
     private static Logger logger = Logger.getLogger("assignment1");
 
     public GameEngineImpl()
@@ -37,29 +39,47 @@ public class GameEngineImpl implements GameEngine
             throw new IllegalArgumentException(
                     "Delay values (in ms) must be 1 or greater");
         }
+        if (finalDelay < initialDelay)
+        {
+            throw new IllegalArgumentException(
+                    "Final delay must be greater than inital delay");
+        }
 
-        Random r = new Random();
-        int num = r.nextInt(wheelSize) + 1;
+        int num;
+        if (previousWheelValue <= 0 || previousWheelValue > wheelSize)
+        {
+            Random r = new Random();
+            num = r.nextInt(wheelSize) + 1;
+        }
+        else
+        {
+            num = previousWheelValue;
+        }
 
         int delay = initialDelay;
 
         while (delay < finalDelay)
         {
+            for (GameEngineCallback callback : gameEngineCallbacks)
+            {
+                callback.nextNumber(num, this);
+            }
+
             try
             {
-                Thread.sleep(delay);
+                TimeUnit.MILLISECONDS.sleep(delay);
             }
             catch (InterruptedException e)
             {
-                // TODO Deal with this
-                e.printStackTrace();
+                Thread.currentThread().interrupt();
             }
 
             num++;
 
-            for (GameEngineCallback callback : gameEngineCallbacks)
+            // Once wheelSize is reached, wrap around to 1
+            if (num > wheelSize)
             {
-                callback.nextNumber(num, this);
+                num = 1;
             }
 
             delay += delayIncrement;
@@ -69,6 +89,8 @@ public class GameEngineImpl implements GameEngine
         {
             callback.result(num, this);
         }
+
+        previousWheelValue = num;
 
         return num;
     }
