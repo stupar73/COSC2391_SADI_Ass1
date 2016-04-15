@@ -25,7 +25,7 @@ public class GameEngineCallbackSwingImpl implements GameEngineCallback
     public void result(int result, GameEngine engine)
     {
         wheelPanel.finalCurrentWheelValue(result);
-        engine.calculateResult(10);
+        engine.calculateResult(result);
 
         for (GamePlayerPanel panel : gameWindow.getPlayerPanels())
         {
