@@ -1,9 +1,9 @@
 package app;
 
 import model.GameEngineCallbackImpl;
-import model.GameEngineCallbackSwingImpl;
 import model.GameEngineImpl;
 import model.interfaces.GameEngine;
+import view.GameEngineCallbackSwingImpl;
 import view.GameWindow;
 
 public class SwingClient

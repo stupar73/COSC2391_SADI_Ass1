@@ -1,4 +1,4 @@
-package model;
+package view;
 
 import model.interfaces.GameEngine;
 import model.interfaces.GameEngineCallback;
