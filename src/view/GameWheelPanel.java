@@ -31,12 +31,12 @@ public class GameWheelPanel extends JPanel
         Font spinFont = spinButton.getFont();
         spinButton.setFont(new Font(spinFont.getFontName(),
                 Font.BOLD, 32));
-        spinButton.setEnabled(false); // Active when there's at least one player
+        deactivateSpinButton(); // Disabled until there's at least one player
 
         currentWheelValue = new JLabel("", JLabel.CENTER);
         Font wheelFont = currentWheelValue.getFont();
         currentWheelValue.setFont(new Font(wheelFont.getFontName(),
-                Font.PLAIN, 38));
+                wheelFont.getStyle(), 38));
         currentWheelValue.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder(Color.BLACK),
                 BorderFactory.createEmptyBorder(10, 10, 10, 10)));
@@ -92,10 +92,13 @@ public class GameWheelPanel extends JPanel
     public void activateSpinButton()
     {
         spinButton.setEnabled(true);
+        spinButton.setToolTipText(null);
     }
 
     public void deactivateSpinButton()
     {
         spinButton.setEnabled(false);
+        spinButton.setToolTipText("Cannot spin wheel until a player has been "
+                + "added");
     }
 }
