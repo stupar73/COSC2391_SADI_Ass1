@@ -1,6 +1,7 @@
 package view;
 
 import java.util.concurrent.TimeUnit;
+import javax.swing.SwingUtilities;
 import model.interfaces.GameEngine;
 import model.interfaces.GameEngineCallback;
 
@@ -18,18 +19,40 @@ public class GameEngineCallbackSwingImpl implements GameEngineCallback
     @Override
     public void nextNumber(int nextNumber, GameEngine engine)
     {
-        wheelPanel.updateCurrentWheelValue(nextNumber);
+        SwingUtilities.invokeLater(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                wheelPanel.updateCurrentWheelValue(nextNumber);
+            }
+        });
     }
 
     @Override
     public void result(int result, GameEngine engine)
     {
-        wheelPanel.finalCurrentWheelValue(result);
+        SwingUtilities.invokeLater(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                wheelPanel.finalCurrentWheelValue(result);
+            }
+        });
+
         engine.calculateResult(result);
 
         for (GamePlayerPanel panel : gameWindow.getPlayerPanels())
         {
-            panel.update();
+            SwingUtilities.invokeLater(new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    panel.update();
+                }
+            });
         }
 
         // Keep displaying final wheel value for 3 seconds after spin finished
