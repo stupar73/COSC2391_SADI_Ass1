@@ -27,8 +27,13 @@ public class SpinWheelListener implements ActionListener
             @Override
             public void run()
             {
+                // Pseudo-randomly generate initial and final delay values where
+                // the final delay value is at least 3*delayIncrement greater
+                // than the initial delay value. This ensures that the wheel
+                // spins through at least three values
                 Random r = new Random();
-                int initDelay = r.nextInt(GameVariables.getInitialDelayUpper());
+                int initDelay = r.nextInt(GameVariables.getInitialDelayUpper())
+                        + 1;
                 int delayDiff = initDelay
                         + 3 * GameVariables.getDelayIncrement();
                 int finalDelay = r.nextInt(GameVariables.getFinalDelayUpper()
