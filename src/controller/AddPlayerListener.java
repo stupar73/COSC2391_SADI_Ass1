@@ -61,5 +61,7 @@ public class AddPlayerListener implements ActionListener
         gameEngine.addPlayer(newPlayer);
         // Update GUI to display new player
         gameWindow.updateVisiblePlayers();
+        // Activate spin button
+        gameWindow.getWheelPanel().activateSpinButton();
     }
 }

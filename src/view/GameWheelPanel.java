@@ -31,7 +31,7 @@ public class GameWheelPanel extends JPanel
         Font spinFont = spinButton.getFont();
         spinButton.setFont(new Font(spinFont.getFontName(),
                 Font.BOLD, 32));
-        // spinButton.setEnabled(false); // Activate when all players have bet
+        spinButton.setEnabled(false); // Active when there's at least one player
 
         currentWheelValue = new JLabel("", JLabel.CENTER);
         Font wheelFont = currentWheelValue.getFont();
@@ -87,5 +87,15 @@ public class GameWheelPanel extends JPanel
         Font wheelFont = currentWheelValue.getFont();
         currentWheelValue.setFont(wheelFont.deriveFont(
                 wheelFont.getStyle() & ~Font.BOLD));
+    }
+
+    public void activateSpinButton()
+    {
+        spinButton.setEnabled(true);
+    }
+
+    public void deactivateSpinButton()
+    {
+        spinButton.setEnabled(false);
     }
 }

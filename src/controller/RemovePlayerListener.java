@@ -50,6 +50,8 @@ public class RemovePlayerListener implements ActionListener
         gameEngine.removePlayer(player);
         // Update GUI to remove player
         gameWindow.updateVisiblePlayers();
+        // De-activate spin button
+        gameWindow.getWheelPanel().deactivateSpinButton();
     }
 
 }
