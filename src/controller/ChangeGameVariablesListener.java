@@ -6,23 +6,28 @@ import model.interfaces.GameEngine;
 import view.GameVariablesDialog;
 import view.GameWindow;
 
+/**
+ * Listener that displays a change game variables prompt in response to a GUI
+ * event.
+ *
+ * @author Stuart Parker (s3390317)
+ *
+ */
 public class ChangeGameVariablesListener implements ActionListener
 {
-    private GameWindow gameWindow;
-    private GameEngine gameEngine;
+    private GameWindow window;
+    private GameEngine engine;
 
-    public ChangeGameVariablesListener(GameWindow gameWindow,
-            GameEngine gameEngine)
+    public ChangeGameVariablesListener(GameWindow window, GameEngine engine)
     {
-        this.gameWindow = gameWindow;
-        this.gameEngine = gameEngine;
+        this.window = window;
+        this.engine = engine;
     }
 
     @Override
     public void actionPerformed(ActionEvent e)
     {
-        GameVariablesDialog dialog = new GameVariablesDialog(
-                this.gameWindow, this.gameEngine);
-        dialog.show();
+        GameVariablesDialog dialog = new GameVariablesDialog(window, engine);
+        dialog.display();
     }
 }

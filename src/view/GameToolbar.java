@@ -6,32 +6,35 @@ import controller.AddPlayerListener;
 import controller.RemovePlayerListener;
 import model.interfaces.GameEngine;
 
+/**
+ * Toolbar that contains buttons for adding and removing players.
+ *
+ * @author Stuart Parker (s3390317)
+ *
+ */
 public class GameToolbar extends JToolBar
 {
-    private GameWindow gameWindow;
-    private GameEngine gameEngine;
+    private GameWindow window;
+    private GameEngine engine;
     private JButton addPlayer;
     private JButton removePlayer;
 
-    public GameToolbar(GameWindow gameWindow, GameEngine gameEngine)
+    public GameToolbar(GameWindow window, GameEngine engine)
     {
-        // Give the toolbar a title
-        super("Spin the Wheel Toolbar");
-
         // Disable toolbar dragging
         this.setFloatable(false);
 
-        this.gameWindow = gameWindow;
-        this.gameEngine = gameEngine;
+        this.window = window;
+        this.engine = engine;
 
         addPlayer = new JButton("Add Player");
         removePlayer = new JButton("Remove Player");
 
         // Add listeners to buttons
-        addPlayer.addActionListener(new AddPlayerListener(this.gameWindow,
-                this.gameEngine));
-        removePlayer.addActionListener(new RemovePlayerListener(this.gameWindow,
-                this.gameEngine));
+        addPlayer.addActionListener(new AddPlayerListener(this.window,
+                this.engine));
+        removePlayer.addActionListener(new RemovePlayerListener(this.window,
+                this.engine));
 
         this.add(addPlayer);
         this.add(removePlayer);

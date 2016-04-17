@@ -9,20 +9,27 @@ import model.interfaces.Player;
 import view.GamePlayerPanel;
 import view.GameWindow;
 
+/**
+ * Listener that places a bet in the game engine for a player in response to a
+ * GUI event.
+ *
+ * @author Stuart Parker (s3390317)
+ *
+ */
 public class PlaceBetListener implements ActionListener
 {
-    private GameWindow gameWindow;
-    private GameEngine gameEngine;
+    private GameWindow window;
+    private GameEngine engine;
     private GamePlayerPanel playerPanel;
     private Player player;
     private JSpinner betField;
     private JSpinner luckyNumberField;
 
-    public PlaceBetListener(GameWindow gameWindow, GameEngine gameEngine,
+    public PlaceBetListener(GameWindow window, GameEngine engine,
             GamePlayerPanel playerPanel)
     {
-        this.gameWindow = gameWindow;
-        this.gameEngine = gameEngine;
+        this.window = window;
+        this.engine = engine;
         this.playerPanel = playerPanel;
         this.player = playerPanel.getPlayer();
         this.betField = playerPanel.getBetField();
@@ -35,10 +42,10 @@ public class PlaceBetListener implements ActionListener
         int betAmount = (int) betField.getValue();
         int luckyNumber = (int) luckyNumberField.getValue();
 
-        // Place bet, show error message if it failed
-        if (!gameEngine.placeBet(player, luckyNumber, betAmount))
+        // Attempt to place bet, show error message if it failed
+        if (!engine.placeBet(player, luckyNumber, betAmount))
         {
-            JOptionPane.showMessageDialog(gameWindow, "Unable to place bet "
+            JOptionPane.showMessageDialog(window, "Unable to place bet "
                     + "for player with ID " + player.getPlayerId());
             return;
         }
@@ -48,7 +55,7 @@ public class PlaceBetListener implements ActionListener
                 + betAmount + " point(s) on number " + luckyNumber
                 + ".</i></html>");
 
-        // Disable button until turn over
+        // Disable bet button until turn over
         playerPanel.getBetButton().setEnabled(false);
     }
 }

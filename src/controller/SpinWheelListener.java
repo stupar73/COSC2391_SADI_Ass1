@@ -8,15 +8,21 @@ import model.GameVariables;
 import model.interfaces.GameEngine;
 import view.GameWindow;
 
+/**
+ * Listener that spins the game wheel in response to a GUI event.
+ *
+ * @author Stuart Parker (s3390317)
+ *
+ */
 public class SpinWheelListener implements ActionListener
 {
-    private GameWindow gameWindow;
-    private GameEngine gameEngine;
+    private GameWindow window;
+    private GameEngine engine;
 
-    public SpinWheelListener(GameWindow gameWindow, GameEngine gameEngine)
+    public SpinWheelListener(GameWindow window, GameEngine engine)
     {
-        this.gameWindow = gameWindow;
-        this.gameEngine = gameEngine;
+        this.window = window;
+        this.engine = engine;
     }
 
     @Override
@@ -39,17 +45,17 @@ public class SpinWheelListener implements ActionListener
                 int finalDelay = r.nextInt(GameVariables.getFinalDelayUpper()
                         - delayDiff) + delayDiff;
 
-                gameWindow.getWheelPanel().showWheel();
+                window.getWheelPanel().showWheel();
                 try
                 {
-                    gameEngine.spin(GameVariables.getWheelSize(), initDelay,
+                    engine.spin(GameVariables.getWheelSize(), initDelay,
                             finalDelay, GameVariables.getDelayIncrement());
                 }
                 catch (IllegalArgumentException e)
                 {
-                    JOptionPane.showMessageDialog(gameWindow, e.getMessage(),
+                    JOptionPane.showMessageDialog(window, e.getMessage(),
                             "Wheel spin error", JOptionPane.ERROR_MESSAGE);
-                    gameWindow.getWheelPanel().showSpinButton();
+                    window.getWheelPanel().showSpinButton();
                 }
             }
         }.start();

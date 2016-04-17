@@ -23,7 +23,7 @@ public class Client
 
     public static void main(String args[])
     {
-        final GameEngine gameEngine = new GameEngineImpl();
+        final GameEngine engine = new GameEngineImpl();
 
         // Create two test players
         Player[] players = new Player[] {
@@ -31,34 +31,34 @@ public class Client
                 new SimplePlayer("2", "The Loser", 500)
         };
 
-        gameEngine.addGameEngineCallback(new GameEngineCallbackImpl());
+        engine.addGameEngineCallback(new GameEngineCallbackImpl());
 
         // Main loop to add player place a bet
         for (Player player : players)
         {
-            gameEngine.addPlayer(player);
+            engine.addPlayer(player);
             int number = (int) (Math.random() * WHEEL_SIZE);
             logger.log(Level.INFO, "lucky number=" + number);
             logger.log(Level.INFO, "placeBet returned "
-                    + gameEngine.placeBet(player, number, BET));
+                    + engine.placeBet(player, number, BET));
         }
 
         // All players have bet so now do spin, so that GameEngineCallBacks are
         // called
-        int result = gameEngine.spin(WHEEL_SIZE, 1, 300, 30);
+        int result = engine.spin(WHEEL_SIZE, 1, 300, 30);
 
         // Update player point balances
-        gameEngine.calculateResult(result);
+        engine.calculateResult(result);
 
         // Log final points balances so we can check correctness
-        for (Player player : gameEngine.getAllPlayers())
+        for (Player player : engine.getAllPlayers())
         {
             logger.log(Level.INFO, player.toString());
         }
         // Remove players
         for (Player player : players)
         {
-            gameEngine.removePlayer(player);
+            engine.removePlayer(player);
         }
     }
 }

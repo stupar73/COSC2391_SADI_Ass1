@@ -2,6 +2,9 @@ package model;
 
 /**
  * Stores variables for the current game, modifiable through preferences menu.
+ *
+ * @author Stuart Parker (s3390317)
+ *
  */
 public class GameVariables
 {

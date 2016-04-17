@@ -11,6 +11,12 @@ import model.interfaces.GameEngine;
 import model.interfaces.GameEngineCallback;
 import model.interfaces.Player;
 
+/**
+ * Engine for the game, controls all game logic.
+ *
+ * @author Stuart Parker (s3390317)
+ *
+ */
 public class GameEngineImpl implements GameEngine
 {
     private Collection<Player> players;
@@ -45,6 +51,10 @@ public class GameEngineImpl implements GameEngine
                     "Final delay must be greater than inital delay");
         }
 
+        /*
+         * Assign starting value to previous wheel number or pseudo-randomly
+         * generate a starting number if this is the first spin
+         */
         int num;
         if (previousWheelValue <= 0 || previousWheelValue > wheelSize)
         {
@@ -60,11 +70,13 @@ public class GameEngineImpl implements GameEngine
 
         while (delay < finalDelay)
         {
+            // Inform each game engine callback of the next number on the wheel
             for (GameEngineCallback callback : gameEngineCallbacks)
             {
                 callback.nextNumber(num, this);
             }
 
+            // Delay next number to simulate spinning on a physical wheel
             try
             {
                 TimeUnit.MILLISECONDS.sleep(delay);
@@ -85,6 +97,7 @@ public class GameEngineImpl implements GameEngine
             delay += delayIncrement;
         }
 
+        // Inform each game engine callback of the final result
         for (GameEngineCallback callback : gameEngineCallbacks)
         {
             callback.result(num, this);
@@ -188,19 +201,19 @@ public class GameEngineImpl implements GameEngine
     }
 
     @Override
-    public void addGameEngineCallback(GameEngineCallback gameEngineCallback)
+    public void addGameEngineCallback(GameEngineCallback engineCallback)
     {
-        assert (gameEngineCallback != null);
+        assert (engineCallback != null);
 
-        gameEngineCallbacks.add(gameEngineCallback);
+        gameEngineCallbacks.add(engineCallback);
     }
 
     @Override
-    public void removeGameEngineCallback(GameEngineCallback gameEngineCallback)
+    public void removeGameEngineCallback(GameEngineCallback engineCallback)
     {
-        assert (gameEngineCallback != null);
+        assert (engineCallback != null);
 
-        gameEngineCallbacks.remove(gameEngineCallback);
+        gameEngineCallbacks.remove(engineCallback);
     }
 
 }

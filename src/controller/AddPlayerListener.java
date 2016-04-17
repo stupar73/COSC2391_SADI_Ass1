@@ -9,28 +9,34 @@ import model.interfaces.GameEngine;
 import model.interfaces.Player;
 import view.GameWindow;
 
+/**
+ * Listener that adds a player to the game engine in response to a GUI event.
+ *
+ * @author Stuart Parker (s3390317)
+ *
+ */
 public class AddPlayerListener implements ActionListener
 {
-    GameWindow gameWindow;
-    GameEngine gameEngine;
+    private GameWindow window;
+    private GameEngine engine;
 
-    public AddPlayerListener(GameWindow gameWindow, GameEngine gameEngine)
+    public AddPlayerListener(GameWindow window, GameEngine engine)
     {
-        this.gameWindow = gameWindow;
-        this.gameEngine = gameEngine;
+        this.window = window;
+        this.engine = engine;
     }
 
     @Override
     public void actionPerformed(ActionEvent e)
     {
-        if (gameEngine.getAllPlayers().size() >= GameVariables.getMaxPlayers())
+        if (engine.getAllPlayers().size() >= GameVariables.getMaxPlayers())
         {
-            JOptionPane.showMessageDialog(gameWindow, "Cannot add new player, "
+            JOptionPane.showMessageDialog(window, "Cannot add new player, "
                     + "maximum player count has been reached.");
             return;
         }
 
-        String name = JOptionPane.showInputDialog(gameWindow,
+        String name = JOptionPane.showInputDialog(window,
                 "Enter player name:", "Add Player",
                 JOptionPane.QUESTION_MESSAGE);
 
@@ -42,7 +48,7 @@ public class AddPlayerListener implements ActionListener
 
         while (name.isEmpty())
         {
-            name = JOptionPane.showInputDialog(gameWindow,
+            name = JOptionPane.showInputDialog(window,
                     "Invalid name. Enter player name:", "Add Player",
                     JOptionPane.QUESTION_MESSAGE);
             if (name == null)
@@ -58,10 +64,10 @@ public class AddPlayerListener implements ActionListener
         GameVariables.setNextPlayerID(playerID + 1);
 
         // Add player to game engine
-        gameEngine.addPlayer(newPlayer);
+        engine.addPlayer(newPlayer);
         // Update GUI to display new player
-        gameWindow.updateVisiblePlayers();
+        window.updateVisiblePlayers();
         // Activate spin button
-        gameWindow.getWheelPanel().activateSpinButton();
+        window.getWheelPanel().activateSpinButton();
     }
 }

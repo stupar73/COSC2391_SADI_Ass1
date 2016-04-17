@@ -6,17 +6,23 @@ import model.interfaces.GameEngine;
 import view.GameEngineCallbackSwingImpl;
 import view.GameWindow;
 
+/**
+ * Swing GUI client for SADI assignment 1, Semester 1, 2016
+ *
+ * @author Stuart Parker (s3390317)
+ *
+ */
 public class SwingClient
 {
     public static void main(String[] args)
     {
         // Create game engine and window to display GUI
-        final GameEngine gameEngine = new GameEngineImpl();
-        GameWindow gameWindow = new GameWindow(gameEngine);
+        final GameEngine engine = new GameEngineImpl();
+        GameWindow window = new GameWindow(engine);
 
         // Add Swing and console game engine callback implementations
-        gameEngine.addGameEngineCallback(new GameEngineCallbackImpl());
-        gameEngine.addGameEngineCallback(new GameEngineCallbackSwingImpl(
-                gameWindow));
+        engine.addGameEngineCallback(new GameEngineCallbackImpl());
+        engine.addGameEngineCallback(new GameEngineCallbackSwingImpl(
+                window));
     }
 }

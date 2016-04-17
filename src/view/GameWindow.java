@@ -5,23 +5,31 @@ import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import model.interfaces.GameEngine;
 import model.interfaces.Player;
 
+/**
+ * Main window that holds all other components of the games GUI.
+ *
+ * @author Stuart Parker (s3390317)
+ *
+ */
 public class GameWindow extends JFrame
 {
-    private GameEngine gameEngine;
+    private GameEngine engine;
     private GameMenuBar menuBar;
     private GameToolbar toolbar;
     private JPanel playerPanelsContainer;
     private GameWheelPanel wheelPanel;
-    private Collection<GamePlayerPanel> playerPanels;
+    private Map<Player, GamePlayerPanel> playerPanels;
     private Collection<Player> visiblePlayers;
 
-    public GameWindow(GameEngine gameEngine)
+    public GameWindow(GameEngine engine)
     {
         super("Spin the Wheel Game");
 
@@ -30,20 +38,20 @@ public class GameWindow extends JFrame
 
         // UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 
-        this.gameEngine = gameEngine;
+        this.engine = engine;
 
-        this.menuBar = new GameMenuBar(this, gameEngine);
+        this.menuBar = new GameMenuBar(this, engine);
         this.setJMenuBar(menuBar);
 
-        this.toolbar = new GameToolbar(this, gameEngine);
+        this.toolbar = new GameToolbar(this, engine);
         this.add(this.toolbar, BorderLayout.PAGE_START);
 
         this.playerPanelsContainer = new JPanel();
         this.add(this.playerPanelsContainer, BorderLayout.CENTER);
-        this.playerPanels = new ArrayList<GamePlayerPanel>();
+        this.playerPanels = new HashMap<>();
         this.visiblePlayers = new ArrayList<Player>();
 
-        this.wheelPanel = new GameWheelPanel(this, gameEngine);
+        this.wheelPanel = new GameWheelPanel(this, engine);
         this.add(wheelPanel, BorderLayout.PAGE_END);
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -55,12 +63,12 @@ public class GameWindow extends JFrame
     }
 
     /**
-     * Update the GUI to display any added player and hide any removed players
+     * Update the GUI to display any added players and hide any removed players
      */
     public void updateVisiblePlayers()
     {
         // Add players
-        for (Player player : this.gameEngine.getAllPlayers())
+        for (Player player : this.engine.getAllPlayers())
         {
             if (!this.visiblePlayers.contains(player))
             {
@@ -70,7 +78,7 @@ public class GameWindow extends JFrame
         // Remove players
         for (Player player : this.getAllVisiblePlayers())
         {
-            if (!this.gameEngine.getAllPlayers().contains(player))
+            if (!this.engine.getAllPlayers().contains(player))
             {
                 removePlayerPanel(player);
             }
@@ -83,39 +91,38 @@ public class GameWindow extends JFrame
     }
 
     /**
-     * Create a {@code GamePlayerPanel} for {@code player} and add it to
+     * Create a GamePlayerPanel for {@code player} and add it to
      * {@code playerPanels} and {@code playerPanelsContainer} as well as adding
      * {@code player} to {@code visiblePlayers}
      *
      * @param player
-     *            the {@code Player} whose {@code GamePlayerPanel} we want to
-     *            add to the GUI
+     *            the Player whose GamePlayerPanel we want to add to the GUI
      */
     private void addPlayerPanel(Player player)
     {
-        GamePlayerPanel playerPanel = new GamePlayerPanel(this, this.gameEngine,
+        GamePlayerPanel playerPanel = new GamePlayerPanel(this, this.engine,
                 player);
 
         // Player should not already be present
-        assert (!playerPanels.contains(player));
+        assert (!playerPanels.containsKey(player));
 
-        this.playerPanels.add(playerPanel);
+        this.playerPanels.put(player, playerPanel);
         this.playerPanelsContainer.add(playerPanel);
         this.visiblePlayers.add(player);
     }
 
     /**
-     * Remove player's {@code GamePlayerPanel} from {@code playerPanels} and
+     * Remove {@code player}'s GamePlayerPanel from {@code playerPanels} and
      * {@code playerPanelsContainer} as well remove the associated
-     * {@code Player} from {@code visiblePlayers}
+     * Player from {@code visiblePlayers}
      *
      * @param player
-     *            the {@code Player} whose {@code GamePlayerPanel} we want to
-     *            remove from the GUI
+     *            the Player whose GamePlayerPanel we want to remove from the
+     *            GUI
      */
     private void removePlayerPanel(Player player)
     {
-        GamePlayerPanel playerPanel = getPlayersPanel(player);
+        GamePlayerPanel playerPanel = playerPanels.get(player);
 
         // Players panel should be present in playerPanels
         assert (playerPanel != null);
@@ -126,36 +133,15 @@ public class GameWindow extends JFrame
     }
 
     /**
-     * Get the {@code GamePlayerPanel} for {@code Player} player
-     *
-     * @param player
-     *            the {@code Player} whose {@code GamePlayerPanel} we're looking
-     *            for
-     * @return the {@code GamePlayerPanel} for {@code player}, or null if it
-     *         does not exist
-     */
-    private GamePlayerPanel getPlayersPanel(Player player)
-    {
-        for (GamePlayerPanel panel : this.playerPanels)
-        {
-            if (panel.getPlayer().equals(player))
-            {
-                return panel;
-            }
-        }
-        return null;
-    }
-
-    /**
-     * @return TODO
+     * @return all GamePlayerPanels present in {@code playerPanels}
      */
     public Collection<GamePlayerPanel> getPlayerPanels()
     {
-        return playerPanels;
+        return playerPanels.values();
     }
 
     /**
-     * @return all {@code Player}s that are displayed on the screen
+     * @return all Players that are displayed on the screen
      */
     private Collection<Player> getAllVisiblePlayers()
     {

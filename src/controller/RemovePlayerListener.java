@@ -7,21 +7,28 @@ import model.interfaces.GameEngine;
 import model.interfaces.Player;
 import view.GameWindow;
 
+/**
+ * Listener that removes a player from the game engine in response to a GUI
+ * event.
+ *
+ * @author Stuart Parker (s3390317)
+ *
+ */
 public class RemovePlayerListener implements ActionListener
 {
-    GameWindow gameWindow;
-    GameEngine gameEngine;
+    private GameWindow window;
+    private GameEngine engine;
 
-    public RemovePlayerListener(GameWindow gameWindow, GameEngine gameEngine)
+    public RemovePlayerListener(GameWindow window, GameEngine engine)
     {
-        this.gameWindow = gameWindow;
-        this.gameEngine = gameEngine;
+        this.window = window;
+        this.engine = engine;
     }
 
     @Override
     public void actionPerformed(ActionEvent e)
     {
-        String id = JOptionPane.showInputDialog(gameWindow, "Enter player ID:",
+        String id = JOptionPane.showInputDialog(window, "Enter player ID:",
                 "Remove Player", JOptionPane.QUESTION_MESSAGE);
 
         if (id == null)
@@ -30,10 +37,10 @@ public class RemovePlayerListener implements ActionListener
             return;
         }
 
-        Player player = gameEngine.getPlayer(id);
+        Player player = engine.getPlayer(id);
         while (player == null)
         {
-            id = JOptionPane.showInputDialog(gameWindow,
+            id = JOptionPane.showInputDialog(window,
                     "No player with that ID. Enter player ID:", "Remove Player",
                     JOptionPane.QUESTION_MESSAGE);
 
@@ -43,15 +50,15 @@ public class RemovePlayerListener implements ActionListener
                 return;
             }
 
-            player = gameEngine.getPlayer(id);
+            player = engine.getPlayer(id);
         }
 
         // Remove player from game engine
-        gameEngine.removePlayer(player);
+        engine.removePlayer(player);
         // Update GUI to remove player
-        gameWindow.updateVisiblePlayers();
-        // De-activate spin button
-        gameWindow.getWheelPanel().deactivateSpinButton();
+        window.updateVisiblePlayers();
+        // Deactivate spin button
+        window.getWheelPanel().deactivateSpinButton();
     }
 
 }

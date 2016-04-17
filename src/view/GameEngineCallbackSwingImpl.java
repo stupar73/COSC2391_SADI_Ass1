@@ -5,15 +5,22 @@ import javax.swing.SwingUtilities;
 import model.interfaces.GameEngine;
 import model.interfaces.GameEngineCallback;
 
+/**
+ * GameEngineCallback for a GUI. Informs GUI of game events in order for the
+ * display to be updated.
+ *
+ * @author Stuart Parker (s3390317)
+ *
+ */
 public class GameEngineCallbackSwingImpl implements GameEngineCallback
 {
-    GameWindow gameWindow;
-    GameWheelPanel wheelPanel;
+    private GameWindow window;
+    private GameWheelPanel wheelPanel;
 
-    public GameEngineCallbackSwingImpl(GameWindow gameWindow)
+    public GameEngineCallbackSwingImpl(GameWindow window)
     {
-        this.gameWindow = gameWindow;
-        this.wheelPanel = gameWindow.getWheelPanel();
+        this.window = window;
+        this.wheelPanel = window.getWheelPanel();
     }
 
     @Override
@@ -43,7 +50,7 @@ public class GameEngineCallbackSwingImpl implements GameEngineCallback
 
         engine.calculateResult(result);
 
-        for (GamePlayerPanel panel : gameWindow.getPlayerPanels())
+        for (GamePlayerPanel panel : window.getPlayerPanels())
         {
             SwingUtilities.invokeLater(new Runnable()
             {

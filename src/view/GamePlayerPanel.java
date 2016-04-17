@@ -9,15 +9,28 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingConstants;
 import controller.PlaceBetListener;
 import model.GameVariables;
 import model.interfaces.GameEngine;
 import model.interfaces.Player;
 
+/**
+ * A panel containing a players information. For assignment 1 there is only one
+ * of these, but multiple can readily be added to the GUI up to the maxPlayers
+ * game variable limit.
+ * <br />
+ * <br />
+ * Displays a players name, current points, two fields to enter the number they
+ * wish to bet on and the number of points to be on said number.
+ *
+ * @author Stuart Parker (s3390317)
+ *
+ */
 public class GamePlayerPanel extends JPanel
 {
-    private GameWindow gameWindow;
-    private GameEngine gameEngine;
+    private GameWindow window;
+    private GameEngine engine;
     private Player player;
     private JLabel nameLabel;
     private JLabel nameValue;
@@ -30,11 +43,11 @@ public class GamePlayerPanel extends JPanel
     private JButton placeBet;
     private JLabel betInfo;
 
-    public GamePlayerPanel(GameWindow gameWindow, GameEngine gameEngine,
+    public GamePlayerPanel(GameWindow window, GameEngine engine,
             Player player)
     {
-        this.gameWindow = gameWindow;
-        this.gameEngine = gameEngine;
+        this.window = window;
+        this.engine = engine;
         this.player = player;
 
         this.setLayout(new GridBagLayout());
@@ -44,24 +57,21 @@ public class GamePlayerPanel extends JPanel
         nameLabel = new JLabel("Name: ", JLabel.TRAILING);
 
         nameValue = new JLabel(player.getPlayerName());
-        nameValue.setAlignmentX(LEFT_ALIGNMENT);
 
-        pointsLabel = new JLabel("Points: ", JLabel.TRAILING);
+        pointsLabel = new JLabel("Points: ", SwingConstants.TRAILING);
 
         pointsValue = new JLabel(Integer.toString(player.getPoints()));
-        pointsValue.setAlignmentX(LEFT_ALIGNMENT);
 
-        luckyNumberLabel = new JLabel("Lucky number: ", JLabel.TRAILING);
+        luckyNumberLabel = new JLabel("Lucky number: ",
+                SwingConstants.TRAILING);
 
         luckyNumberField = new JSpinner(new SpinnerNumberModel(1, 1,
                 GameVariables.getWheelSize(), 1));
-        luckyNumberField.setAlignmentX(LEFT_ALIGNMENT);
 
-        betLabel = new JLabel("Bet amount: ", JLabel.TRAILING);
+        betLabel = new JLabel("Bet amount: ", SwingConstants.TRAILING);
 
         betField = new JSpinner(new SpinnerNumberModel(1, 1,
                 player.getPoints(), 1));
-        betField.setAlignmentX(LEFT_ALIGNMENT);
 
         nameLabel.setLabelFor(nameValue);
         pointsLabel.setLabelFor(pointsValue);
@@ -69,11 +79,12 @@ public class GamePlayerPanel extends JPanel
         betLabel.setLabelFor(betField);
 
         placeBet = new JButton("Place bet");
-        placeBet.addActionListener(new PlaceBetListener(this.gameWindow,
-                this.gameEngine, this));
+        placeBet.addActionListener(new PlaceBetListener(this.window,
+                this.engine, this));
 
         betInfo = new JLabel("");
 
+        // Create layout constraints for labels, values, and fields
         GridBagConstraints labelConstraints = new GridBagConstraints();
         labelConstraints.gridx = 0;
         labelConstraints.gridy = 0;
@@ -90,6 +101,7 @@ public class GamePlayerPanel extends JPanel
         buttonConstraints.insets = new Insets(5, 0, 0, 0);
         GridBagConstraints betInfoConstraints = buttonConstraints;
 
+        // Add components to the panel with specified constraints
         this.add(nameLabel, labelConstraints);
         this.add(nameValue, valueConstraints);
         labelConstraints.gridy++;
@@ -160,11 +172,11 @@ public class GamePlayerPanel extends JPanel
         // Re-enable place bet button
         placeBet.setEnabled(true);
 
-        gameWindow.revalidate();
+        window.revalidate();
     }
 
     /**
-     * @return the {@code Player} object for this {@code GamePlayerPanel}
+     * @return the Player object for this GamePlayerPanel
      */
     public Player getPlayer()
     {
@@ -172,7 +184,7 @@ public class GamePlayerPanel extends JPanel
     }
 
     /**
-     * @return the betField for this {@code GamePlayerPanel}
+     * @return the betField for this GamePlayerPanel
      */
     public JSpinner getBetField()
     {
@@ -180,7 +192,7 @@ public class GamePlayerPanel extends JPanel
     }
 
     /**
-     * @return the luckyNumberField for this {@code GamePlayerPanel}
+     * @return the luckyNumberField for this GamePlayerPanel
      */
     public JSpinner getLuckyNumberfield()
     {
@@ -188,7 +200,7 @@ public class GamePlayerPanel extends JPanel
     }
 
     /**
-     * @return the placeBet button for this {@code GamePlayerPanel}
+     * @return the placeBet button for this GamePlayerPanel
      */
     public JButton getBetButton()
     {
@@ -197,7 +209,7 @@ public class GamePlayerPanel extends JPanel
 
     /**
      * @return the betInfo field, used to display information about the
-     *         bet that has been placed for this {@code Player}
+     *         bet that has been placed for this Player
      */
     public JLabel getBetPlacedInfo()
     {

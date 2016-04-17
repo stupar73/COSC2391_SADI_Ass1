@@ -2,6 +2,12 @@ package model;
 
 import model.interfaces.Player;
 
+/**
+ * A simple implementation of Player.
+ *
+ * @author Stuart Parker (s3390317)
+ *
+ */
 public class SimplePlayer implements Player
 {
     private String id;
@@ -68,7 +74,7 @@ public class SimplePlayer implements Player
      * Determines whether this {@code Player} can place the bet
      *
      * @param number
-     *            the "lucky" number on the wheel the player is betting on
+     *            the lucky number on the wheel that the player is betting on
      * @param bet
      *            the bet in points
      * @return true if the player has sufficient points and the bet is greater

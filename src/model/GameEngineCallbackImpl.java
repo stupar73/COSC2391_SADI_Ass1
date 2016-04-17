@@ -5,6 +5,12 @@ import java.util.logging.Logger;
 import model.interfaces.GameEngine;
 import model.interfaces.GameEngineCallback;
 
+/**
+ * Simple console GameEngineCallback. Merely logs the values it receives.
+ *
+ * @author Stuart Parker (s3390317)
+ *
+ */
 public class GameEngineCallbackImpl implements GameEngineCallback
 {
     private static Logger logger = Logger.getLogger("assignment1");

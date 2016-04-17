@@ -11,10 +11,16 @@ import javax.swing.SpinnerNumberModel;
 import model.GameVariables;
 import model.interfaces.GameEngine;
 
+/**
+ * Dialog that contains all game variables and allows user to adjust them.
+ *
+ * @author Stuart Parker (s3390317)
+ *
+ */
 public class GameVariablesDialog extends JPanel
 {
-    private GameWindow gameWindow;
-    private GameEngine gameEngine;
+    private GameWindow window;
+    private GameEngine engine;
     private JSpinner wheelSize;
     private JSpinner startingPoints;
     private JSpinner initialDelay;
@@ -22,10 +28,10 @@ public class GameVariablesDialog extends JPanel
     private JSpinner delayIncrement;
     private JSpinner maxPlayers;
 
-    public GameVariablesDialog(GameWindow gameWindow, GameEngine gameEngine)
+    public GameVariablesDialog(GameWindow window, GameEngine engine)
     {
-        this.gameWindow = gameWindow;
-        this.gameEngine = gameEngine;
+        this.window = window;
+        this.engine = engine;
 
         this.setLayout(new GridBagLayout());
 
@@ -66,9 +72,13 @@ public class GameVariablesDialog extends JPanel
                 6);
     }
 
-    public void show()
+    /**
+     * Display dialog containing fields to modify game variables. Fields are
+     * pre-populated with current values for the variables.
+     */
+    public void display()
     {
-        int selection = JOptionPane.showConfirmDialog(this.gameWindow, this,
+        int selection = JOptionPane.showConfirmDialog(this.window, this,
                 "Game Variables", JOptionPane.OK_CANCEL_OPTION);
 
         if (selection == JOptionPane.OK_OPTION)
@@ -77,6 +87,9 @@ public class GameVariablesDialog extends JPanel
         }
     }
 
+    /**
+     * Set modified game variables.
+     */
     private void changeGameVariables()
     {
         GameVariables.setWheelSize((int) wheelSize.getValue());
@@ -88,10 +101,10 @@ public class GameVariablesDialog extends JPanel
          * Make sure new max player count is not less than the current number of
          * players
          */
-        if ((int) maxPlayers.getValue() < this.gameEngine.getAllPlayers()
+        if ((int) maxPlayers.getValue() < this.engine.getAllPlayers()
                 .size())
         {
-            JOptionPane.showMessageDialog(this.gameWindow, "Cannot set new max "
+            JOptionPane.showMessageDialog(this.window, "Cannot set new max "
                     + "player count, new max player count must not exceed "
                     + "current number of players.");
         }
@@ -101,6 +114,17 @@ public class GameVariablesDialog extends JPanel
         }
     }
 
+    /**
+     * Adds a JLabel and JSpinner to this JPanel.
+     *
+     * @param labelText
+     *            text the JLabel for the JSpinner should contain
+     * @param model
+     *            model for the JSpinner
+     * @param row
+     *            the row in the dialog that it should appear
+     * @return the JSpinner that has been added to the JPanel
+     */
     private JSpinner addLabeledSpinner(String labelText, SpinnerModel model,
             int row)
     {
