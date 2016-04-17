@@ -20,7 +20,7 @@ public interface GameEngine
      * <li>Start at initialDelay then increment the delay each time a new number
      * is passed on the wheel</li>
      * <li>Call GameEngineCallback.nextNumber(...) each time a number is passed
-     * continue until delay >= finalDelay</li>
+     * continue until delay &gt;= finalDelay</li>
      * <li>Call GameEngineCallback.result(...) to finish and process result</li>
      * </ol>
      *

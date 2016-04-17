@@ -19,8 +19,8 @@ import model.interfaces.Player;
  * A panel containing a players information. For assignment 1 there is only one
  * of these, but multiple can readily be added to the GUI up to the maxPlayers
  * game variable limit.
- * <br />
- * <br />
+ * <br>
+ * <br>
  * Displays a players name, current points, two fields to enter the number they
  * wish to bet on and the number of points to be on said number.
  *
@@ -125,13 +125,9 @@ public class GamePlayerPanel extends JPanel
     /**
      * Update the information displayed in this {@code GamePlayerPanel} based
      * on the current game state.
-     * <br />
-     * <br />
+     * <br>
+     * <br>
      * Should be called after a spin has been completed.
-     *
-     * @param result
-     *            the lucky number the wheel landed on, used to determine if the
-     *            previously placed bet won
      */
     public void update()
     {

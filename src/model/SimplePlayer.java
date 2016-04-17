@@ -73,8 +73,6 @@ public class SimplePlayer implements Player
     /**
      * Determines whether this {@code Player} can place the bet
      *
-     * @param number
-     *            the lucky number on the wheel that the player is betting on
      * @param bet
      *            the bet in points
      * @return true if the player has sufficient points and the bet is greater
